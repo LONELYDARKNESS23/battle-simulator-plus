@@ -1,0 +1,9 @@
+{
+  "provider": "ollama",
+  "base_url": "http://127.0.0.1:11434",
+  "model": "gemma4:e4b",
+  "api_key_env": "BATTLE_API_KEY",
+  "timeout": 40,
+  "structured": true,
+  "thinking": false
+}

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10191e" />
+    <title>RIFT — Линия разлома</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="RIFT — главная"
+        ><span class="brand-mark">ϟ</span><span>RIFT<small>ЛИНИЯ РАЗЛОМА</small></span></a
+      >
+      <div class="header-center">
+        <span class="live-dot"></span> ТАКТИЧЕСКИЙ СИМУЛЯТОР <span class="separator">/</span>
+        <span id="header-sector">СЕКТОР 07</span>
+      </div>
+      <nav>
+        <button class="nav-button" id="quit-btn">Выйти</button>
+        <button class="icon-button" id="sound-btn" title="Включить звук" aria-label="Включить звук">
+          ♫</button
+        ><button class="nav-button" id="help-btn">Как играть <span>?</span></button
+        ><button class="nav-button" id="settings-btn">Командир <span>⚙</span></button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="operation-header">
+        <div>
+          <div class="eyebrow">
+            ОПЕРАЦИЯ <span id="operation-id">01</span> <span class="slash">//</span>
+            <span id="scenario-subtitle">ЗАБРОШЕННЫЙ ЗАВОД</span>
+          </div>
+          <h1 id="scenario-name">Промзона</h1>
+          <p>Захватите связь. Удержите позиции. Вернитесь с победой.</p>
+        </div>
+        <div class="scoreboard">
+          <div class="score-side friendly"><span>ВАШ ОТРЯД</span><b id="blue-score">00</b></div>
+          <div class="score-middle">
+            <span>КОНТРОЛЬ УЗЛОВ</span>
+            <div id="point-score"><i>A</i><i>B</i><i>C</i></div>
+            <small>ЦЕЛЬ: 60 ОЧКОВ</small>
+          </div>
+          <div class="score-side hostile"><span>ПРОТИВНИК</span><b id="red-score">00</b></div>
+        </div>
+      </section>
+
+      <div class="game-layout">
+        <aside class="squad-panel panel">
+          <div class="panel-heading">
+            <h2>Ваш отряд</h2>
+            <span id="squad-count">04 / 04</span>
+          </div>
+          <div class="squad-status">
+            <span class="live-dot"></span><span id="squad-status">Ожидает приказов</span>
+          </div>
+          <div id="roster" class="roster"></div>
+          <div class="squad-footer">
+            <span>ВРАЖЕСКИЙ ОТРЯД</span>
+            <div id="enemy-roster"></div>
+          </div>
+          <button class="secondary wide" id="auto-btn">◇ Автопилот на один ход</button>
+          <p class="aside-note">Вы выбираете действия. Командир управляет противником.</p>
+        </aside>
+
+        <section class="battle-panel panel">
+          <div class="battle-topline">
+            <div>
+              <span class="eyebrow">ТАКТИЧЕСКАЯ КАРТА</span
+              ><span class="map-status" id="map-phase"><i></i> Ваш ход</span>
+            </div>
+            <span class="round-badge">РАУНД <b id="round-number">01</b><span>/ 18</span></span>
+          </div>
+          <div class="map-tools"><span>СТВОЛ И СТРЕЛКА → НАПРАВЛЕНИЕ БОЙЦА</span><button id="directions-btn" class="text-button" aria-pressed="true">Направления</button><button id="focus-btn" class="text-button" aria-pressed="false">⛶ Крупная карта</button></div>
+          <div class="board-wrap" id="board-wrap">
+            <canvas
+              id="battlefield"
+              tabindex="0"
+              aria-label="Поле боя. Выберите бойца карточкой или клавишами 1–4; действия доступны в панели под картой."
+            ></canvas>
+            <div id="cell-tooltip" class="cell-tooltip" hidden></div>
+            <div id="thinking-banner" class="thinking-banner" hidden>
+              <span class="spinner"></span>
+              <div>
+                <strong>Противник планирует ход</strong
+                ><small id="thinking-time">Соединение с командиром…</small>
+              </div>
+              <button id="fallback-btn" class="secondary">Продолжить без ожидания</button>
+            </div>
+          </div>
+          <div class="map-legend">
+            <span><i class="legend-dot friendly"></i> Ваш отряд</span
+            ><span><i class="legend-dot hostile"></i> Противник</span
+            ><span><i class="legend-cover"></i> Укрытие −5 урона</span
+            ><span><i class="legend-point">A</i> Узел связи</span
+            ><span id="coordinates">16 × 11</span>
+          </div>
+          <div class="command-panel">
+            <div class="selected-summary">
+              <span id="selected-icon" class="role-icon">⌁</span>
+              <div>
+                <strong id="selected-name">Вектор</strong
+                ><small id="selected-description">Штурмовик · 2 очка действия</small>
+              </div>
+              <button id="next-unit-btn" class="text-button" title="Выбрать следующего бойца с очками действий">Следующий боец →</button><button id="advice-btn" class="text-button">Подсказка ↗</button>
+            </div>
+            <div id="actions" class="actions">
+              <button data-mode="move"><span>↗</span> Движение <kbd>M</kbd></button
+              ><button data-mode="attack"><span>⌖</span> Огонь <kbd>F</kbd></button
+              ><button data-mode="skill">
+                <span>◈</span> <span id="skill-label">Граната</span> <kbd>Q</kbd></button
+              ><button data-mode="guard"><span>⬡</span> Прикрытие <kbd>G</kbd></button>
+            </div>
+            <p id="action-hint" class="action-hint">Выберите действие, затем клетку на карте.</p>
+          </div>
+        </section>
+
+        <aside class="intel-panel panel">
+          <div class="panel-heading">
+            <h2>Обстановка</h2>
+            <span class="tiny-tag">LIVE</span>
+          </div>
+          <div class="mission-card">
+            <div class="eyebrow">ГЛАВНАЯ ЗАДАЧА</div>
+            <h3>Контроль территории</h3>
+            <p>
+              Каждый ваш узел приносит <strong>+5 очков</strong> за раунд. Захват — в пределах одной
+              клетки. Спорные узлы очков не дают.
+            </p>
+            <div id="objectives" class="objectives"></div>
+          </div>
+          <div class="log-heading">
+            <h3>Боевой журнал</h3>
+            <span id="log-count">01</span>
+          </div>
+          <div
+            id="combat-log"
+            class="combat-log"
+            aria-live="polite"
+            aria-label="Последние события боя"
+          ></div>
+          <div class="commander-status">
+            <span class="chip-icon">◈</span>
+            <div>
+              <span>КОМАНДИР ПРОТИВНИКА</span><strong id="commander-name">Тактический ИИ</strong
+              ><small id="commander-detail">Готов к бою · локально</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="game-footer">
+        <div class="footer-left">
+          <button id="new-btn" class="text-button">↺ Новая операция</button
+          ><span class="footer-divider"></span
+          ><button id="save-btn" class="text-button">Сохранить</button
+          ><button id="load-btn" class="text-button">Загрузить</button
+          ><button id="export-btn" class="text-button">Журнал ↓</button>
+        </div>
+        <div class="turn-controls">
+          <button id="pause-btn" class="secondary" hidden>Ⅱ Пауза</button
+          ><button id="undo-btn" class="secondary">↶ Отменить</button
+          ><button id="end-turn-btn" class="primary">
+            Завершить ход <span>→</span><kbd>SPACE</kbd>
+          </button>
+        </div>
+      </footer>
+      <div id="tutorial" class="tutorial">
+        <span class="tutorial-number">01</span>
+        <p>
+          <strong>Начните с позиции.</strong> Выберите бойца → «Движение» → подсвеченную клетку. У
+          каждого бойца 2 ОД. Захватывайте разные узлы, используйте укрытия.
+        </p>
+        <button id="dismiss-tutorial" aria-label="Закрыть подсказку">×</button>
+      </div>
+    </main>
+
+    <dialog id="briefing-dialog" class="dialog briefing-dialog">
+      <div class="briefing-art" aria-hidden="true">
+        <div class="radar-ring r1"></div>
+        <div class="radar-ring r2"></div>
+        <div class="radar-ring r3"></div>
+        <div class="radar-cross"></div>
+        <span class="radar-label">СВЯЗЬ УСТАНОВЛЕНА</span><span class="art-number">07</span>
+        <div class="art-brand">RIFT <span>TACTICAL OPERATIONS</span></div>
+      </div>
+      <div class="dialog-content">
+        <div class="eyebrow">БРИФИНГ <span class="slash">//</span> НОВАЯ ОПЕРАЦИЯ</div>
+        <h2>Линия разлома</h2>
+        <p class="dialog-intro">Четыре бойца. Три узла связи. Один командир — вы.</p>
+        <p class="quick-start-note">Всё готово: нажмите «В бой». Модель для первого запуска не нужна.</p><details class="operation-settings"><summary>Настроить карту, сложность и режим</summary><label for="scenario-select">ТЕАТР ОПЕРАЦИИ</label>
+        <div id="scenario-options" class="scenario-options"></div>
+        <select id="scenario-select" class="sr-only">
+          <option value="foundry">Промзона</option>
+          <option value="crossroads">Перекрёсток</option>
+          <option value="relay">Релейная станция</option>
+        </select>
+        <p id="brief-description" class="brief-description"></p>
+        <div class="form-grid">
+          <div>
+            <label for="difficulty-select">СЛОЖНОСТЬ</label
+            ><select id="difficulty-select">
+              <option value="easy">Новичок</option>
+              <option value="normal" selected>Тактик</option>
+              <option value="hard">Ветеран</option>
+            </select>
+          </div>
+          <div>
+            <label for="mode-select">ВАША РОЛЬ</label
+            ><select id="mode-select">
+              <option value="command">Командир</option>
+              <option value="observe">Наблюдатель</option>
+            </select>
+          </div>
+        </div>
+        <div class="brief-rules">
+          <span>◈ До 60 очков или разгрома</span><span>⌁ 2 действия на бойца</span
+          ><span>◷ До 18 раундов</span>
+        </div>
+        </details><button id="start-btn" class="primary wide">В бой <span>→</span></button
+        ><button id="resume-btn" class="text-button wide" hidden>
+          Продолжить сохранённую операцию</button
+        ><button id="cancel-briefing" class="text-button wide" hidden>Вернуться к бою</button>
+      </div>
+    </dialog>
+
+    <dialog id="settings-dialog" class="dialog settings-dialog">
+      <div class="dialog-content">
+        <button class="dialog-close" data-close="settings-dialog" aria-label="Закрыть">×</button>
+        <div class="eyebrow">НАСТРОЙКИ КОМАНДИРА</div>
+        <h2>Кто принимает решения?</h2>
+        <p class="dialog-intro">
+          Подключите другую модель без изменений кода. Командир задаёт план отряду; правила боя
+          проверяют каждое действие.
+        </p>
+        <form id="settings-form">
+          <label for="provider">ПРОВАЙДЕР</label
+          ><select id="provider">
+            <option value="builtin">Встроенный тактический ИИ · без модели</option>
+            <option value="ollama">Ollama · локальная модель</option>
+            <option value="openai">Совместимый API · LM Studio / другие серверы</option>
+          </select>
+          <div id="network-fields">
+            <label for="base-url">АДРЕС СЕРВЕРА</label
+            ><input id="base-url" type="url" placeholder="http://127.0.0.1:11434" required /><label
+              for="model-name"
+              >МОДЕЛЬ</label
+            >
+            <div class="input-row">
+              <input id="model-name" list="models-list" placeholder="gemma4:e4b" required /><button
+                id="models-btn"
+                type="button"
+                class="secondary"
+              >
+                Найти модели
+              </button>
+            </div>
+            <datalist id="models-list"></datalist>
+            <div id="key-fields">
+              <label for="api-key">API-КЛЮЧ <span>НЕОБЯЗАТЕЛЬНО ДЛЯ ЛОКАЛЬНОГО СЕРВЕРА</span></label
+              ><input
+                id="api-key"
+                type="password"
+                autocomplete="off"
+                placeholder="Хранится только до закрытия сервера"
+              /><label class="checkbox-label"
+                ><input id="clear-key" type="checkbox" /> Удалить ранее введённый ключ</label
+              >
+              <p class="field-note">
+                Или задайте переменную окружения <code>BATTLE_API_KEY</code> перед запуском игры.
+              </p>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label for="timeout">ОЖИДАНИЕ, СЕКУНД</label
+                ><input id="timeout" type="number" min="5" max="120" value="40" required />
+              </div>
+              <div class="switches">
+                <label class="checkbox-label"
+                  ><input id="structured" type="checkbox" checked /> Структурированный JSON</label
+                ><label class="checkbox-label" id="thinking-field"
+                  ><input id="thinking" type="checkbox" /> Режим рассуждений Ollama</label
+                >
+              </div>
+            </div>
+            <p class="field-note">
+              Если сервер не поддерживает JSON-режим, отключите его. При ошибке или тайм-ауте ход
+              выполнит встроенный командир.
+            </p>
+          </div>
+          <div id="settings-result" class="form-result" role="status"></div>
+          <div class="dialog-buttons">
+            <button type="button" id="test-btn" class="secondary">Проверить модель</button
+            ><button type="submit" class="primary">Сохранить настройки</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="help-dialog" class="dialog help-dialog">
+      <div class="dialog-content">
+        <button class="dialog-close" data-close="help-dialog" aria-label="Закрыть">×</button>
+        <div class="eyebrow">ПОЛЕВОЙ СПРАВОЧНИК</div>
+        <h2>Ваш первый бой</h2>
+        <div class="help-step">
+          <b>01</b>
+          <div>
+            <h3>Займите узлы</h3>
+            <p>
+              Подойдите к A, B или C на одну клетку. Если рядом нет врага, узел станет вашим.
+              Владение сохраняется, пока его не перехватят. В конце полного раунда каждый неспорный
+              узел даёт +5 очков.
+            </p>
+          </div>
+        </div>
+        <div class="help-step">
+          <b>02</b>
+          <div>
+            <h3>Распределите два действия</h3>
+            <p>
+              Движение, выстрел и большинство способностей стоят 1 ОД. Точный выстрел разведчика
+              стоит 2 ОД. Прикрытие завершает действия бойца, снижает урон на 7 и даёт один ответный
+              выстрел по движущемуся врагу.
+            </p>
+          </div>
+        </div>
+        <div class="help-step">
+          <b>03</b>
+          <div>
+            <h3>Пользуйтесь местностью и ролями</h3><p>Ствол и стрелка показывают направление бойца после движения или атаки. Это визуальная подсказка: обзор и ответный огонь работают во все стороны.</p>
+            <p>
+              Ящики снижают входящий урон на 5. Стены блокируют путь и линию огня. Граната поражает
+              только врагов. Медик лечит, тяжёлый боец отнимает у цели 1 ОД следующего хода.
+              Перезарядка способности — два своих хода.
+            </p>
+          </div>
+        </div>
+        <div class="help-step">
+          <b>04</b>
+          <div>
+            <h3>Завершите ход</h3>
+            <p>
+              Противник выполнит свой план. Побеждает отряд, набравший 60 очков или уничтоживший
+              врага. На 18-м раунде решает счёт, затем суммарное здоровье. Сложность меняет тактику
+              встроенного исполнителя; характеристики отрядов равны.
+            </p>
+          </div>
+        </div>
+        <div class="shortcut-grid">
+          <span><kbd>1–4</kbd> Выбрать бойца</span><span><kbd>M</kbd> Движение</span
+          ><span><kbd>F</kbd> Огонь</span><span><kbd>Q</kbd> Способность</span
+          ><span><kbd>G</kbd> Прикрытие</span><span><kbd>SPACE</kbd> Завершить ход</span
+          ><span><kbd>ESC</kbd> Сброс действия</span><span><kbd>↑ ↓ ← →</kbd> Клетка на карте</span
+          ><span><kbd>ENTER</kbd> Выбрать клетку</span>
+        </div>
+        <p class="field-note">
+          Подсказка предлагает действие, но не выполняет его. «Автопилот» завершает весь ваш ход. В
+          режиме наблюдения оба отряда играют автоматически; противником управляет выбранный
+          командир.
+        </p>
+        <button class="primary wide" data-close="help-dialog">Принято</button>
+      </div>
+    </dialog>
+
+    <dialog id="victory-dialog" class="dialog victory-dialog">
+      <div class="dialog-content">
+        <div id="victory-symbol" class="victory-symbol">◇</div>
+        <div class="eyebrow">ОПЕРАЦИЯ ЗАВЕРШЕНА</div>
+        <h2 id="victory-title">Победа</h2>
+        <p id="victory-reason"></p>
+        <div id="victory-stats" class="victory-stats"></div>
+        <div class="dialog-buttons">
+          <button class="secondary" data-close="victory-dialog">Осмотреть поле</button
+          ><button class="primary" id="victory-new">Новая операция →</button>
+        </div>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <dialog id="quit-dialog" class="dialog"><div class="dialog-content"><div class="eyebrow">RIFT</div><h2>Завершить игру?</h2><p class="dialog-intro">Сервер остановится для всех открытых вкладок. Выполненные ходы сохранены автоматически; продолжить можно при следующем запуске.</p><div class="dialog-buttons"><button class="secondary" data-close="quit-dialog">Вернуться</button><button id="confirm-quit-btn" class="primary">Закрыть игру</button></div></div></dialog>
+    <dialog id="closed-dialog" class="dialog"><div class="dialog-content"><div class="eyebrow">ДО СЛЕДУЮЩЕЙ ОПЕРАЦИИ</div><h2>Игра закрыта</h2><p>Эту вкладку можно закрыть. Чтобы вернуться, откройте «Играть в RIFT».</p></div></dialog>
+    <div id="connection-error" class="connection-error" hidden>
+      <span>Связь с игрой потеряна. Откройте «Играть в RIFT» и нажмите «Повторить».</span
+      ><button id="retry-btn" class="secondary">Повторить</button>
+    </div>
+  </body>
+</html>

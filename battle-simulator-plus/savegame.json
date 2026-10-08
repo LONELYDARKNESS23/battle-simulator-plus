@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "battle": {
+    "scenario": "foundry",
+    "difficulty": "normal",
+    "mode": "command",
+    "round": 1,
+    "phase": "player",
+    "score": {
+      "blue": 0,
+      "red": 0
+    },
+    "points": [
+      {
+        "id": "A",
+        "x": 7,
+        "y": 1,
+        "owner": null,
+        "contested": false
+      },
+      {
+        "id": "B",
+        "x": 8,
+        "y": 5,
+        "owner": null,
+        "contested": false
+      },
+      {
+        "id": "C",
+        "x": 8,
+        "y": 9,
+        "owner": null,
+        "contested": false
+      }
+    ],
+    "units": [
+      {
+        "id": "b1",
+        "name": "Вектор",
+        "role": "assault",
+        "team": "blue",
+        "x": 1,
+        "y": 2,
+        "hp": 90,
+        "ap": 2,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "b2",
+        "name": "Призрак",
+        "role": "ranger",
+        "team": "blue",
+        "x": 1,
+        "y": 4,
+        "hp": 70,
+        "ap": 2,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "b3",
+        "name": "Пульс",
+        "role": "medic",
+        "team": "blue",
+        "x": 1,
+        "y": 6,
+        "hp": 75,
+        "ap": 2,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "b4",
+        "name": "Бастион",
+        "role": "heavy",
+        "team": "blue",
+        "x": 1,
+        "y": 8,
+        "hp": 115,
+        "ap": 2,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "r1",
+        "name": "Шрам",
+        "role": "assault",
+        "team": "red",
+        "x": 14,
+        "y": 2,
+        "hp": 90,
+        "ap": 0,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "r2",
+        "name": "Сокол",
+        "role": "ranger",
+        "team": "red",
+        "x": 14,
+        "y": 4,
+        "hp": 70,
+        "ap": 0,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "r3",
+        "name": "Искра",
+        "role": "medic",
+        "team": "red",
+        "x": 14,
+        "y": 6,
+        "hp": 75,
+        "ap": 0,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      },
+      {
+        "id": "r4",
+        "name": "Гром",
+        "role": "heavy",
+        "team": "red",
+        "x": 14,
+        "y": 8,
+        "hp": 115,
+        "ap": 0,
+        "cooldown": 0,
+        "guard": false,
+        "reaction": false,
+        "suppressed": false,
+        "kills": 0
+      }
+    ],
+    "events": [
+      {
+        "id": 1,
+        "round": 1,
+        "kind": "system",
+        "text": "Операция началась. Контролируйте узлы A, B и C: каждый приносит 5 очков за раунд."
+      }
+    ],
+    "winner": null,
+    "reason": "",
+    "serial": 1,
+    "revision": 0,
+    "actions": []
+  }
+}

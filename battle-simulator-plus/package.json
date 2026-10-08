@@ -1,0 +1,11 @@
+{
+  "name": "rift-battle-simulator",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Developer checks for the RIFT local tactical game; Node is not required to play.",
+  "scripts": {
+    "test": "node --test tests/test_client.mjs",
+    "check": "node --check web/app.js && node --check web/client-state.js && node --check web/battlefield-art.js"
+  }
+}

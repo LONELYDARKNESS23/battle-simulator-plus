@@ -1,0 +1,39 @@
+{
+  "python": "3.14.6",
+  "tests": 31,
+  "successful": true,
+  "failures": 0,
+  "errors": 0,
+  "original_files": [
+    {
+      "file": "oop_mini_game.sln",
+      "source_sha256": "6a06a092ea0f999c49730809ec60c25639872ae051226015683509386819ad92",
+      "copy_sha256": "6a06a092ea0f999c49730809ec60c25639872ae051226015683509386819ad92",
+      "equal": true
+    },
+    {
+      "file": "oop_mini_game/oop_mini_game.py",
+      "source_sha256": "9fe01470d1be8dc6e3e4474f7f3fa643010340ab79f98d478ef43a1e500e5b5b",
+      "copy_sha256": "9fe01470d1be8dc6e3e4474f7f3fa643010340ab79f98d478ef43a1e500e5b5b",
+      "equal": true
+    },
+    {
+      "file": "oop_mini_game/Unit.py",
+      "source_sha256": "1854aa54c0b3de13bdfaa14f0703b4db3d3c2f2a3d743b5bc4703f7312661f9f",
+      "copy_sha256": "1854aa54c0b3de13bdfaa14f0703b4db3d3c2f2a3d743b5bc4703f7312661f9f",
+      "equal": true
+    },
+    {
+      "file": "oop_mini_game/Point2D.py",
+      "source_sha256": "ebf582f09ee97e09497b9b76a837ee26632b6ac9df278a35ba8720edac4d5cd7",
+      "copy_sha256": "ebf582f09ee97e09497b9b76a837ee26632b6ac9df278a35ba8720edac4d5cd7",
+      "equal": true
+    },
+    {
+      "file": "oop_mini_game/oop_mini_game.pyproj",
+      "source_sha256": "383fae312d3216435f8cc1f2dd9b1ab14e1eed37289b377002b3a28c10b3da3f",
+      "copy_sha256": "383fae312d3216435f8cc1f2dd9b1ab14e1eed37289b377002b3a28c10b3da3f",
+      "equal": true
+    }
+  ]
+}

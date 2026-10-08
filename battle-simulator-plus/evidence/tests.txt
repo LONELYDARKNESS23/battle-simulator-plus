@@ -1,0 +1,38 @@
+test_browser_api_actions_undo_save_load (test_game.HttpTests.test_browser_api_actions_undo_save_load) ... ok
+test_cross_origin_and_headerless_mutations_rejected (test_game.HttpTests.test_cross_origin_and_headerless_mutations_rejected) ... ok
+test_invalid_action_is_atomic (test_game.HttpTests.test_invalid_action_is_atomic) ... ok
+test_keys_are_not_saved_or_exposed (test_game.HttpTests.test_keys_are_not_saved_or_exposed) ... ok
+test_model_connection_test_does_not_change_saved_config (test_game.HttpTests.test_model_connection_test_does_not_change_saved_config) ... ok
+test_static_paths_do_not_allow_arbitrary_files (test_game.HttpTests.test_static_paths_do_not_allow_arbitrary_files) ... ok
+test_abandoned_response_cannot_mutate_new_match (test_game.ProviderTests.test_abandoned_response_cannot_mutate_new_match) ... ok
+test_failed_neural_turn_falls_back_without_blocking (test_game.ProviderTests.test_failed_neural_turn_falls_back_without_blocking) ... ok
+test_invalid_model_orders_are_rejected (test_game.ProviderTests.test_invalid_model_orders_are_rejected) ... ok
+test_manual_fallback_does_not_wait_for_neural_response (test_game.ProviderTests.test_manual_fallback_does_not_wait_for_neural_response) ... ok
+test_ollama_and_openai_adapters (test_game.ProviderTests.test_ollama_and_openai_adapters) ... ok
+test_partial_valid_plan_is_completed (test_game.ProviderTests.test_partial_valid_plan_is_completed) ... ok
+test_provider_config_validation (test_game.ProviderTests.test_provider_config_validation) ... ok
+test_real_http_transport_for_both_provider_protocols (test_game.ProviderTests.test_real_http_transport_for_both_provider_protocols) ... ok
+test_all_maps_and_difficulties_complete_and_are_reproducible (test_game.RulesTests.test_all_maps_and_difficulties_complete_and_are_reproducible) ... 
+FULL_MATCH_RESULTS=[{"scenario": "foundry", "difficulty": "easy", "winner": "blue", "round": 8, "score": {"blue": 70, "red": 40}, "actions": 71}, {"scenario": "foundry", "difficulty": "normal", "winner": "blue", "round": 8, "score": {"blue": 70, "red": 40}, "actions": 71}, {"scenario": "foundry", "difficulty": "hard", "winner": "blue", "round": 5, "score": {"blue": 10, "red": 35}, "actions": 51}, {"scenario": "crossroads", "difficulty": "easy", "winner": "blue", "round": 9, "score": {"blue": 55, "red": 15}, "actions": 73}, {"scenario": "crossroads", "difficulty": "normal", "winner": "blue", "round": 6, "score": {"blue": 65, "red": 10}, "actions": 64}, {"scenario": "crossroads", "difficulty": "hard", "winner": "blue", "round": 5, "score": {"blue": 20, "red": 15}, "actions": 54}, {"scenario": "relay", "difficulty": "easy", "winner": "blue", "round": 7, "score": {"blue": 50, "red": 15}, "actions": 69}, {"scenario": "relay", "difficulty": "normal", "winner": "blue", "round": 8, "score": {"blue": 55, "red": 0}, "actions": 69}, {"scenario": "relay", "difficulty": "hard", "winner": "blue", "round": 7, "score": {"blue": 60, "red": 25}, "actions": 80}]
+ok
+test_attacks_are_deterministic_and_ignore_client_damage (test_game.RulesTests.test_attacks_are_deterministic_and_ignore_client_damage) ... ok
+test_contested_point_does_not_score (test_game.RulesTests.test_contested_point_does_not_score) ... ok
+test_cover_and_guard_mitigate_damage (test_game.RulesTests.test_cover_and_guard_mitigate_damage) ... ok
+test_elimination_and_score_victory (test_game.RulesTests.test_elimination_and_score_victory) ... ok
+test_friendly_fire_out_of_range_dead_and_wrong_team_rejected (test_game.RulesTests.test_friendly_fire_out_of_range_dead_and_wrong_team_rejected) ... ok
+test_grenade_area_enemy_only (test_game.RulesTests.test_grenade_area_enemy_only) ... ok
+test_line_of_sight_blocks_walls_and_corners (test_game.RulesTests.test_line_of_sight_blocks_walls_and_corners) ... ok
+test_medic_healing_and_two_turn_cooldown (test_game.RulesTests.test_medic_healing_and_two_turn_cooldown) ... ok
+test_movement_is_bounded_by_path_and_consumes_ap (test_game.RulesTests.test_movement_is_bounded_by_path_and_consumes_ap) ... ok
+test_overwatch_death_interrupts_movement_path (test_game.RulesTests.test_overwatch_death_interrupts_movement_path) ... ok
+test_overwatch_fires_once_and_guard_ends_actions (test_game.RulesTests.test_overwatch_fires_once_and_guard_ends_actions) ... ok
+test_round_limit_uses_hp_tiebreaker (test_game.RulesTests.test_round_limit_uses_hp_tiebreaker) ... ok
+test_save_roundtrip_and_reject_corruption (test_game.RulesTests.test_save_roundtrip_and_reject_corruption) ... ok
+test_sniper_skill_costs_two_and_ignores_cover (test_game.RulesTests.test_sniper_skill_costs_two_and_ignores_cover) ... ok
+test_suppression_reduces_next_turn_ap_once (test_game.RulesTests.test_suppression_reduces_next_turn_ap_once) ... ok
+test_walls_occupancy_boundaries_and_noninteger_moves (test_game.RulesTests.test_walls_occupancy_boundaries_and_noninteger_moves) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 4.126s
+
+OK

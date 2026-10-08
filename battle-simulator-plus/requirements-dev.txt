@@ -1,0 +1,2 @@
+# Optional developer tools. The game and Python tests use only the standard library.
+ruff==0.16.10
